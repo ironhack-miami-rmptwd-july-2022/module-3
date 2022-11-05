@@ -1,0 +1,52 @@
+@use 'sass:math';
+
+@function calcRem($size) {
+    $remSize: $size / 16px;
+    @return $remSize * 1rem;
+}
+
+
+
+
+@mixin center-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+
+.task {
+    @include center-content();
+    border: calcRem(1px) solid black;
+
+    &__list {
+        &--container {
+            @include center-content();
+            flex-wrap: wrap;
+            justify-content: space-between;
+            background-color: orange;
+        }
+    }
+
+
+    &__error {
+        background-color: darkslategrey;
+
+        &--severity {
+            &-1 {
+                color: yellow
+            }
+
+            &-2 {
+                color: orange
+            }
+
+            &-3 {
+                color: red;
+            }
+        }
+    }
+}
+
