@@ -1,0 +1,10 @@
+.navbar .selected {
+  font-weight: bold;
+}
+
+.navbar a {
+  margin: 10px;
+  text-decoration: none;
+}
+
+
