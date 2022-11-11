@@ -18,8 +18,20 @@ function App() {
     {name: "Unserserved Communities of South Florida Restoraction Project", year: 2017, budget: "20M+", id:4},
   ]);
 
+  const [theWord, setTheWord] = useState("hello");
+
+  const wordChange = () =>{
+    setTheWord("goodBye");
+  }
+
+
   return (
     <div className="main">
+
+    <h2>the word is: {theWord}</h2>
+    <button onClick={wordChange}>change the word</button>
+    
+
       <Navbar />
       <Routes>
         <Route element={<AboutUs />} path = "/about-us" />

@@ -1,0 +1,30 @@
+
+.countries-list{
+  margin-left: 100px;
+}
+
+
+.individual-country-box{
+  border: 0.5px solid grey;
+  border-radius: 3px;
+  height: 150px;
+  width: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  text-align: center;
+}
+
+.individual-country-box a{
+  text-decoration: none;
+  color: black;
+  margin-top: 15px;
+}
+
+
+.country-details{
+  position: fixed;
+  top: 150px;
+  right: 300px;
+}
