@@ -1,0 +1,34 @@
+
+
+.location-list-item{
+  margin: 10px;
+  font-weight: bold;
+  border: 1px solid black;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+
+}
+
+.location-list-item a {
+  text-decoration: none;
+  color: black;
+
+}
+
+.locations-comp{
+  display: flex;
+  justify-content: space-between;
+}
+
+.list-locations-container{
+  width: 30%;
+}
+
+
+.loc-det-cont{
+  margin: 150px 300px 0 0;
+}
