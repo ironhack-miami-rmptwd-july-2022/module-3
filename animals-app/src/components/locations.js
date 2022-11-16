@@ -4,6 +4,7 @@ import LocationDetails from "./locationDetails"
 import {Routes, Route} from "react-router-dom"
 import axios from "axios";
 import {useEffect, useState} from "react";
+import CreateLocation from "./createLocation";
 
 
 export default function Locations(){
@@ -11,9 +12,9 @@ export default function Locations(){
     const [locations, setLocations] = useState([]);
 
     const fetchLocations = () =>{
-        axios.get("http://localhost:5000/locations")
+        axios.get("http://localhost:4200/locations")
         .then((response)=>{
-            setLocations(response.data);
+            setLocations(response.data.reverse());
         })
         .catch((err)=>{
             console.log(err);
@@ -27,9 +28,10 @@ export default function Locations(){
 
 
     return(<div className="locations-comp">
-            <LocationsList locations={locations} />
+            <LocationsList locations={locations} fetchLocations={fetchLocations} />
+            <CreateLocation fetchLocations={fetchLocations} />
             <Routes>
-                <Route path="/locations/:locationID" element={ <LocationDetails locations={locations} />} />
+                <Route path="/locations/:locationID" element={ <LocationDetails locations={locations} fetchLocations={fetchLocations} />} />
             </Routes>
            
         </div>);

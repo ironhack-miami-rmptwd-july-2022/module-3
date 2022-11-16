@@ -30,5 +30,10 @@
 
 
 .loc-det-cont{
-  margin: 150px 300px 0 0;
+  margin: 350px 300px 0 0;
+}
+
+.loc-det-cont{
+  border: 1px solid black;
+  max-height: 300px;
 }

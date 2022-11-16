@@ -1,11 +1,22 @@
 import "../App.css";
+import axios from "axios";
 
 import {Link} from "react-router-dom";
 
 
-export default function LocationsList({locations}){
+export default function LocationsList({locations, fetchLocations}){
 
-   
+   const deleteLocation = (theID) =>{
+    console.log(theID);
+    axios.post("http://localhost:4200/locations/remove", {id:theID})
+    .then((response)=>{
+        console.log(response);
+        fetchLocations();
+    })
+    .catch((err)=>{
+        console.log(err);
+    })
+   }
 
 
     const listOfLocations = locations.map((eachLocation)=>{
@@ -14,6 +25,7 @@ export default function LocationsList({locations}){
             <h3>{eachLocation.address}</h3>
             <p>{eachLocation.city}, {eachLocation.state}</p>
             </Link>
+            <button onClick={()=>{deleteLocation(eachLocation._id)}}>Delete This Location</button>
             </div>)
 
     })

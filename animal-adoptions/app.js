@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
-const PORT = 5000;
+const PORT = 4200;
 const path = require('path');
 const cookieParser = require("cookie-parser");
 var flash = require('connect-flash');
@@ -103,6 +103,6 @@ app.use('/locations', require('./routes/locations'));
 
 
 // remember to listen at bottom of the app js
-app.listen(PORT || 5000, () => console.log(`Listening on port ${PORT}`));
+app.listen(PORT ||4200, () => console.log(`Listening on port ${PORT}`));
 
 

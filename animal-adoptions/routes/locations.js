@@ -64,6 +64,30 @@ router.get('/:locationID', (req, res, next)=>{
 })
 
 
+router.post("/remove", (req, res, next)=>{
+    Location.findByIdAndRemove(req.body.id)
+    .then((response)=>{
+        res.json(response);
+    })
+    .catch((err)=>{
+        res.json(err);
+    })
+});
+
+
+
+router.post("/edit/:id", (req, res, next)=>{
+    const {address, city, state, zip, apartmentNumber} = req.body;
+    Location.findByIdAndUpdate(req.params.id, {
+     address, city, zip, state, apartmentNumber
+    }).then((response)=>{
+        res.json(response);
+    }).catch((err)=>{
+        res.json(err);
+    })
+});
+
+
 
 
 module.exports = router;
