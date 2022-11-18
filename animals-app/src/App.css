@@ -37,3 +37,15 @@
   border: 1px solid black;
   max-height: 300px;
 }
+
+.animal-list{
+  width: 250px;
+  border: 1px solid black;
+  margin: 50px;
+}
+
+.animals-list-component{
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+}

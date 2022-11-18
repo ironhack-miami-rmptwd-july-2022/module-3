@@ -6,12 +6,8 @@ import LittleAnimalList from "./littleAnimalList";
 import EditLocation from "./editLocation";
 
 
-export default function LocationDetails({locations, fetchLocations}){
+export default function LocationDetails({theLocation, fetchLocations}){
     const {locationID} = useParams();
-
-    const theLocation = locations.find((location)=>{
-        return location._id == locationID
-    })
 
     const [editing, setEditing] = useState(false);
 

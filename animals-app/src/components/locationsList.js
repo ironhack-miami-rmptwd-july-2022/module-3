@@ -4,7 +4,7 @@ import axios from "axios";
 import {Link} from "react-router-dom";
 
 
-export default function LocationsList({locations, fetchLocations}){
+export default function LocationsList({locations, fetchLocations, selectLocation}){
 
    const deleteLocation = (theID) =>{
     console.log(theID);
@@ -21,10 +21,10 @@ export default function LocationsList({locations, fetchLocations}){
 
     const listOfLocations = locations.map((eachLocation)=>{
         return(<div key={eachLocation._id} className="location-list-item">
-            <Link to={"/locations/"+eachLocation._id}>
+            <div onClick={()=>{selectLocation(eachLocation)}}>
             <h3>{eachLocation.address}</h3>
             <p>{eachLocation.city}, {eachLocation.state}</p>
-            </Link>
+            </div>
             <button onClick={()=>{deleteLocation(eachLocation._id)}}>Delete This Location</button>
             </div>)
 
