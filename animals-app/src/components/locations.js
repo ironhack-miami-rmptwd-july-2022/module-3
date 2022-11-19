@@ -6,7 +6,7 @@ import {useEffect, useState} from "react";
 import CreateLocation from "./createLocation";
 
 
-export default function Locations(){
+export default function Locations({theUser}){
     
     const [selectedLocation, setSelectedLocation] = useState(null);
     const [locations, setLocations] = useState([]);
@@ -28,10 +28,10 @@ export default function Locations(){
 
 
     return(<div className="locations-comp">
-            <LocationsList locations={locations} fetchLocations={fetchLocations} selectLocation={setSelectedLocation} />
-            <CreateLocation fetchLocations={fetchLocations} />
+            <LocationsList locations={locations} fetchLocations={fetchLocations} selectLocation={setSelectedLocation} theUser={theUser} />
+            <CreateLocation fetchLocations={fetchLocations} theUser={theUser} />
         
-           { selectedLocation && <LocationDetails theLocation={selectedLocation} fetchLocations={fetchLocations} />}
+           { selectedLocation && <LocationDetails theLocation={selectedLocation} fetchLocations={fetchLocations} theUser={theUser} />}
        
            
         </div>);

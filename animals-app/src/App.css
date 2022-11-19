@@ -49,3 +49,14 @@
   flex-wrap: wrap;
   text-align: center;
 }
+
+.login-signup-container{
+  display: flex;
+}
+
+.login-signup-container > div{
+  margin: 40px;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 30px;
+}

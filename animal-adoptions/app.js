@@ -59,26 +59,38 @@ app.use(flash());
 
 
 
-app.use(function (req, res, next) {
-  // im making a template variable called theUser and imequalling it to 
-  // the user object in the session
-  res.locals.theUser = req.session.currentlyLoggedIn;
-  res.locals.errorMessage = req.flash("error");
-  res.locals.successMessage = req.flash("success");
-  next();
-})
-
-
-
 app.use(express.static(path.join(__dirname, "..", "public")));
 
 // ============== ROUTES =====================
 
-app.use('*', cors());
+
+
+  let whitelist = ['http://localhost:4200','http://localhost:3000'];
+  let corsOptions = {
+      origin: (origin, callback)=>{
+          if (whitelist.indexOf(origin) !== -1) {
+              callback(null, true)
+          } else {
+              callback(new Error('Not allowed by CORS'))
+          }
+      },credentials: true
+  }
+
+
+
+  app.use(cors(corsOptions));
+
+
+// app.use('*', cors(
+//   {origin: "http://localhost:3000", 
+//   "Access-Control-Allow-Credentials": true}
+// ));
 // this is what determines the prefix to your routes within the file that you are requiring. If you add "/blah" then all the routes in your index file would have to start with /blah before any route defined. ie: you create a route in index.js that has an endpoint of '/home' but you prefixed '/blah' in the app.js to require index.js, your end result of the route would then be www.domainName.com/blah/home
 //       |
 app.use('/animals', require('./routes/animals'));
 app.use('/locations', require('./routes/locations'));
+app.use('/', require('./routes/authroutes'));
+
 // this is how we link our routes files to our app
 
 
@@ -96,7 +108,7 @@ app.use('/locations', require('./routes/locations'));
 
     // only render if the error ocurred before sending the response
     if (!res.headersSent) {
-      res.status(500).render("error-page", {theError: err});
+      res.status(500).json({theError: err});
     }
   });
 

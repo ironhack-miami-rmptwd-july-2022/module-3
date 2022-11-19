@@ -6,7 +6,7 @@ import LittleAnimalList from "./littleAnimalList";
 import EditLocation from "./editLocation";
 
 
-export default function LocationDetails({theLocation, fetchLocations}){
+export default function LocationDetails({theLocation, fetchLocations, theUser}){
     const {locationID} = useParams();
 
     const [editing, setEditing] = useState(false);

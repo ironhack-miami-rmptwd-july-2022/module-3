@@ -1,10 +1,9 @@
 import "../App.css";
 import axios from "axios";
-
 import {Link} from "react-router-dom";
 
 
-export default function LocationsList({locations, fetchLocations, selectLocation}){
+export default function LocationsList({locations, fetchLocations, selectLocation, theUser}){
 
    const deleteLocation = (theID) =>{
     console.log(theID);

@@ -6,9 +6,6 @@ const nodemailer = require("nodemailer");
 
 
 
-router.get('/signup', (req, res, next) => {
-    res.render('auth/signup');
-})
 
 router.post('/signup', (req, res, next)=>{
     const saltRounds = 12;
@@ -23,75 +20,88 @@ router.post('/signup', (req, res, next)=>{
     })
     .then((newUser)=>{
 
-      var transporter = nodemailer.createTransport({
-        service: 'gmail',
-        host: 'smtp.gmail.com',
-        auth: {
-          user: 'nick.borbe@ironhack.com',
-          pass: process.env.GMAILPASS
-        }
-      });
-      
-      var mailOptions = {
-        from: 'ironadooptionsapp@ihadoptions.com',
-        to: newUser.email,
-        subject: 'automated email sent with nodemailer',
-        html: `<p>Thank you for signing up. Your username is ${newUser.username}</p>`
-      };
-      
-      transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-          console.log(error);
-        } else {
-          console.log('Email sent: ' + info.response);
-          req.flash('success', 'Successfully Signed Up');
-          req.session.currentlyLoggedIn = newUser;
-          res.redirect('/profile');
-        }
-      });  
-      })
+      res.json({message: "successfully signed up new account"});
+
     })
-    .catch(error => next(error));
+    .catch((err)=>{
+      res.json(err)
+    })
+  })
 });
 
+      // var transporter = nodemailer.createTransport({
+      //   service: 'gmail',
+      //   host: 'smtp.gmail.com',
+      //   auth: {
+      //     user: 'nick.borbe@ironhack.com',
+      //     pass: process.env.GMAILPASS
+      //   }
+      // });
+      
+      // var mailOptions = {
+      //   from: 'ironadooptionsapp@ihadoptions.com',
+      //   to: newUser.email,
+      //   subject: 'automated email sent with nodemailer',
+      //   html: `<p>Thank you for signing up. Your username is ${newUser.username}</p>`
+      // };
+      
+//       transporter.sendMail(mailOptions, function(error, info){
+//         if (error) {
+//           console.log(error);
+//         } else {
+//           console.log('Email sent: ' + info.response);
+//           req.flash('success', 'Successfully Signed Up');
+//           req.session.currentlyLoggedIn = newUser;
+//           res.redirect('/profile');
+//         }
+//       });  
+//       })
+//     })
+//     .catch(error => next(error));
+// });
 
-router.get('/login', (req, res, next)=>{
-  
-  res.render('auth/login');
-})
+
 
 router.post('/login', (req, res, next) => {
   if (req.body.username === '' || req.body.password === '') {
-    req.flash('error', 'Please make sure to fill in both fields');
-    res.redirect('/login');
+    res.json({error: "fields cannot be left blank"})
     return;
   }
  
   User.findOne({ username: req.body.username })
     .then(resultFromDB => {
       if (!resultFromDB) {
-        req.flash('error', 'could not find that username')
-        res.redirect('/login');
+        res.json({error: "username password combination not correct"});
         return;
       } else if (bcryptjs.compareSync(req.body.password, resultFromDB.password)) {
         req.session.currentlyLoggedIn = resultFromDB;
-        req.flash('success', 'Successfully Logged In as ' + resultFromDB.username);
-        res.redirect('/profile');
+        res.json({message: "successfully logged in"});
         return;
       } else {
-        req.flash('error', 'this username/password combination could not be authenticated. please try again');
-        res.redirect('/login');
+        res.json({error: "username password combination not correct"});
       }
     })
     .catch(error => console.log(error));
 });
 
 
-router.get('/profile', (req, res, next)=>{
+function serializeTheUserObject(userObj){
+  let result = {};
+  if(userObj.username) result.username = userObj.username;
+  if(userObj.email) result.email = userObj.email;
+  return result;
+}
+
+
+router.get('/serializeuser', (req, res, next)=>{
+  console.log(req.session);
+  console.log(req.session.currentlyLoggedIn);
+
+  if(!req.session.currentlyLoggedIn) res.json(null);
 
   User.findById(req.session.currentlyLoggedIn._id).populate('location')
   .then((theUser)=>{
-    res.render('auth/profile', {theUser: theUser})
+    res.json(serializeTheUserObject(theUser))
   })
   .catch((err)=>{
     console.log(err)
@@ -102,46 +112,42 @@ router.get('/profile', (req, res, next)=>{
 router.post('/logout', (req, res, next)=>{
   req.session.destroy(err => {
     if (err) console.log(err);
-    res.redirect('/');
+    res.json({message: "successfully logged out"});
   });
 })
 
 
-router.get('/change-password', (req, res, next)=>{
-  res.render("auth/changepassword", {theUser: req.session.currentlyLoggedIn});
-})
 
+// router.post('/new-password', (req, res, next)=>{
 
-router.post('/new-password', (req, res, next)=>{
+//   if(req.body.newpass !== req.body.confirmnewpass){
+//     res.redirect("/profile")
+//     // need to show an error message here but cant yet
+//   }
 
-  if(req.body.newpass !== req.body.confirmnewpass){
-    res.redirect("/profile")
-    // need to show an error message here but cant yet
-  }
-
-  User.findById(req.session.currentlyLoggedIn._id)
-  .then(resultFromDB => {
-     if (bcryptjs.compareSync(req.body.oldpass, resultFromDB.password)) {
-      const saltRounds = 12;
-      bcryptjs
-      .genSalt(saltRounds)
-      .then(salt => bcryptjs.hash(req.body.newpass, salt))
-      .then(hashedPassword => {
+//   User.findById(req.session.currentlyLoggedIn._id)
+//   .then(resultFromDB => {
+//      if (bcryptjs.compareSync(req.body.oldpass, resultFromDB.password)) {
+//       const saltRounds = 12;
+//       bcryptjs
+//       .genSalt(saltRounds)
+//       .then(salt => bcryptjs.hash(req.body.newpass, salt))
+//       .then(hashedPassword => {
         
-        User.findByIdAndUpdate(req.session.currentlyLoggedIn._id, {
-          password: hashedPassword
-        })
-        .then(()=>{
-          res.redirect('/profile');
+//         User.findByIdAndUpdate(req.session.currentlyLoggedIn._id, {
+//           password: hashedPassword
+//         })
+//         .then(()=>{
+//           res.redirect('/profile');
 
-        })
-      })
-        .catch((err)=>{
-          next(err);
-        })
-  }
-})
-})
+//         })
+//       })
+//         .catch((err)=>{
+//           next(err);
+//         })
+  // }
+// })
+// })
 
 
 
