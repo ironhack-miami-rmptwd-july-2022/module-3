@@ -1,0 +1,62 @@
+
+
+.location-list-item{
+  margin: 10px;
+  font-weight: bold;
+  border: 1px solid black;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+
+}
+
+.location-list-item a {
+  text-decoration: none;
+  color: black;
+
+}
+
+.locations-comp{
+  display: flex;
+  justify-content: space-between;
+}
+
+.list-locations-container{
+  width: 30%;
+}
+
+
+.loc-det-cont{
+  margin: 350px 300px 0 0;
+}
+
+.loc-det-cont{
+  border: 1px solid black;
+  max-height: 300px;
+}
+
+.animal-list{
+  width: 250px;
+  border: 1px solid black;
+  margin: 50px;
+}
+
+.animals-list-component{
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.login-signup-container{
+  display: flex;
+}
+
+.login-signup-container > div{
+  margin: 40px;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 30px;
+}
